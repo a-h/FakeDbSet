@@ -1,9 +1,0 @@
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\Example.BusinessLogic.dll
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\Example.BusinessLogic.pdb
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\EntityFramework.dll
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\Example.Data.dll
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\Example.Data.pdb
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\bin\Debug\EntityFramework.xml
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\obj\Debug\Example.BusinessLogic.dll
-C:\Projects\FakeDbSet\Examples\Example.BusinessLogic\obj\Debug\Example.BusinessLogic.pdb
