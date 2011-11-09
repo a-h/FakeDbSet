@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/a-h/FakeDbSet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A ready to use FakeDbSet for faking Entity Framework code.</description>
+    <releaseNotes>A ready to use FakeDbSet for faking Entity Framework code.  First release.</releaseNotes>
+    <copyright></copyright>
+    <tags>EF, InMemoryDbSet, Code First</tags>
+  </metadata>
+</package>
