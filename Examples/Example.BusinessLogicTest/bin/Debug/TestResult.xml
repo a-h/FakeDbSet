@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogicTest.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-11-09" time="14:29:50">
+  <environment nunit-version="2.5.2.9222" clr-version="4.0.30319.235" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.2\bin\net-2.0" machine-name="PCLDS2058" user="AdrianH" user-domain="THEBIGWORD" />
+  <culture-info current-culture="en-GB" current-uiculture="en-US" />
+  <test-suite name="C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogicTest.dll" executed="True" success="True" time="0.622" asserts="0">
+    <results>
+      <test-suite name="C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogicTest.dll" executed="True" success="True" time="0.456" asserts="0">
+        <results>
+          <test-suite name="Example" executed="True" success="True" time="0.449" asserts="0">
+            <results>
+              <test-suite name="BusinessLogicTest" executed="True" success="True" time="0.447" asserts="0">
+                <results>
+                  <test-suite name="DataAccessTest" executed="True" success="True" time="0.446" asserts="0">
+                    <results>
+                      <test-case name="Example.BusinessLogicTest.DataAccessTest.ListBooksCreatedByReturnsAppropriateResults" executed="True" success="True" time="0.434" asserts="2" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

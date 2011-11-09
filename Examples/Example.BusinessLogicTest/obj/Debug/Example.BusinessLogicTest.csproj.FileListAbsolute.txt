@@ -1,0 +1,17 @@
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogicTest.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogicTest.pdb
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\EntityFramework.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.Data.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\FakeDbSet.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\nunit.framework.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\nunit.mocks.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\pnunit.framework.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\FakeDbSet.pdb
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.Data.pdb
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\EntityFramework.xml
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\nunit.framework.xml
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\obj\Debug\Example.BusinessLogicTest.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\obj\Debug\Example.BusinessLogicTest.pdb
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogic.dll
+C:\Projects\FakeDbSet\Examples\Example.BusinessLogicTest\bin\Debug\Example.BusinessLogic.pdb

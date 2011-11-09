@@ -1,0 +1,7 @@
+C:\Projects\FakeDbSet\Examples\Example.Data\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\FakeDbSet\Examples\Example.Data\bin\Debug\Example.Data.dll
+C:\Projects\FakeDbSet\Examples\Example.Data\bin\Debug\Example.Data.pdb
+C:\Projects\FakeDbSet\Examples\Example.Data\bin\Debug\EntityFramework.dll
+C:\Projects\FakeDbSet\Examples\Example.Data\bin\Debug\EntityFramework.xml
+C:\Projects\FakeDbSet\Examples\Example.Data\obj\Debug\Example.Data.dll
+C:\Projects\FakeDbSet\Examples\Example.Data\obj\Debug\Example.Data.pdb
