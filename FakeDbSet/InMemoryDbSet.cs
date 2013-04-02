@@ -15,13 +15,42 @@ namespace FakeDbSet
 	/// <typeparam name="T">The type of DbSet.</typeparam>
 	public class InMemoryDbSet<T> : IDbSet<T> where T : class
 	{
+        bool IsStaticMode = false;
+
+        /// <summary>
+        /// The non static backing store data for the InMemoryDbSet.
+        /// </summary>
+        HashSet<T> Data { get; set; }
+
 		readonly static HashSet<T> _data = new HashSet<T>();
 		readonly IQueryable _query = _data.AsQueryable();
 
-		public InMemoryDbSet() : this(false)
+        /// <summary>
+        /// Creates an instance of the InMemoryDbSet using the default static backing store.This means
+        /// that data persists between test runs, like it would do with a database unless you
+        /// cleared it down.
+        /// </summary>
+		public InMemoryDbSet() : this(true)
 		{
 		}
 
+        /// <summary>
+        /// This constructor allows you to pass in your own data store, instead of using
+        /// the static backing store.
+        /// </summary>
+        /// <param name="data">A place to store data.</param>
+        public InMemoryDbSet(HashSet<T> data)
+        {
+            this.IsStaticMode = false;
+            this.Data = data;
+        }
+
+        /// <summary>
+        /// Creates an instance of the InMemoryDbSet using the default static backing store.This means
+        /// that data persists between test runs, like it would do with a database unless you
+        /// cleared it down.
+        /// </summary>
+        /// <param name="clearDownExistingData"></param>
         public InMemoryDbSet(bool clearDownExistingData)
         {
             if (clearDownExistingData)
@@ -32,18 +61,41 @@ namespace FakeDbSet
 
         public void Clear()
         {
-            _data.Clear();
+            if (this.IsStaticMode)
+            {
+                _data.Clear();
+            }
+            else
+            {
+                this.Data.Clear();
+            }
         }
 
 		public T Add(T entity)
 		{
-			_data.Add(entity);
+            if (this.IsStaticMode)
+            {
+                _data.Add(entity);
+            }
+            else
+            {
+                this.Data.Add(entity);
+            }
+
 			return entity;
 		}
 
 		public T Attach(T entity)
 		{
-			_data.Add(entity);
+            if (this.IsStaticMode)
+            {
+                _data.Add(entity);
+            }
+            else
+            {
+                this.Data.Add(entity);
+            }
+
 			return entity;
 		}
 
@@ -69,18 +121,40 @@ namespace FakeDbSet
 
 		public T Remove(T entity)
 		{
-			_data.Remove(entity);
+            if (this.IsStaticMode)
+            {
+                _data.Remove(entity);
+            }
+            else
+            {
+                this.Data.Remove(entity);
+            }
+
 			return entity;
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return _data.GetEnumerator();
+            if (this.IsStaticMode)
+            {
+                return _data.GetEnumerator();
+            }
+            else
+            {
+                return this.Data.GetEnumerator();
+            }
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return _data.GetEnumerator();
+            if (this.IsStaticMode)
+            {
+                return _data.GetEnumerator();
+            }
+            else
+            {
+                return this.Data.GetEnumerator();
+            }
 		}
 
 		public Type ElementType
