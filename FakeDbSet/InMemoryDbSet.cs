@@ -5,34 +5,56 @@ using System.Text;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace FakeDbSet
 {
-	/// <summary>
-	/// The in-memory database set, taken from Microsoft's online example (http://msdn.microsoft.com/en-us/ff714955.aspx) 
-	/// and modified to be based on DbSet instead of ObjectSet.
-	/// </summary>
-	/// <typeparam name="T">The type of DbSet.</typeparam>
-	public class InMemoryDbSet<T> : IDbSet<T> where T : class
-	{
-        bool IsStaticMode = false;
+    /// <summary>
+    /// The in-memory database set, taken from Microsoft's online example (http://msdn.microsoft.com/en-us/ff714955.aspx) 
+    /// and modified to be based on DbSet instead of ObjectSet.
+    /// </summary>
+    /// <typeparam name="T">The type of DbSet.</typeparam>
+    public class InMemoryDbSet<T> : IDbSet<T> where T : class
+    {
 
+        private Func<IEnumerable<T>, object[], T> _findFunction;
+
+        private readonly HashSet<T> _nonStaticData;
         /// <summary>
         /// The non static backing store data for the InMemoryDbSet.
         /// </summary>
-        HashSet<T> Data { get; set; }
+        private HashSet<T> Data
+        {
+            get
+            {
+                if (_nonStaticData == null)
+                {
+                    return _staticData;
+                }
+                else
+                {
+                    return _nonStaticData;
+                }
+            }
+        }
 
-		readonly static HashSet<T> _data = new HashSet<T>();
-		readonly IQueryable _query = _data.AsQueryable();
+        private static readonly HashSet<T> _staticData = new HashSet<T>();
+
+        public Func<IEnumerable<T>, object[], T> FindFunction
+        {
+            get { return _findFunction; }
+            set { _findFunction = value; }
+        }
 
         /// <summary>
         /// Creates an instance of the InMemoryDbSet using the default static backing store.This means
         /// that data persists between test runs, like it would do with a database unless you
         /// cleared it down.
         /// </summary>
-		public InMemoryDbSet() : this(true)
-		{
-		}
+        public InMemoryDbSet()
+            : this(true)
+        {
+        }
 
         /// <summary>
         /// This constructor allows you to pass in your own data store, instead of using
@@ -41,8 +63,7 @@ namespace FakeDbSet
         /// <param name="data">A place to store data.</param>
         public InMemoryDbSet(HashSet<T> data)
         {
-            this.IsStaticMode = false;
-            this.Data = data;
+            _nonStaticData = data;
         }
 
         /// <summary>
@@ -61,115 +82,83 @@ namespace FakeDbSet
 
         public void Clear()
         {
-            if (this.IsStaticMode)
+            Data.Clear();
+        }
+
+        public T Add(T entity)
+        {
+            Data.Add(entity);
+
+            return entity;
+        }
+
+        public T Attach(T entity)
+        {
+            Data.Add(entity);
+            return entity;
+        }
+
+        public TDerivedEntity Create<TDerivedEntity>() where TDerivedEntity : class, T
+        {
+            return Activator.CreateInstance<TDerivedEntity>();
+        }
+
+        public T Create()
+        {
+            return Activator.CreateInstance<T>();
+        }
+
+        public virtual T Find(params object[] keyValues)
+        {
+            if (FindFunction == null)
             {
-                _data.Clear();
+                return FindFunction(Data, keyValues);
             }
             else
             {
-                this.Data.Clear();
+                throw new NotImplementedException("Derive from InMemoryDbSet and override Find, or provide a FindFunction.");
             }
         }
 
-		public T Add(T entity)
-		{
-            if (this.IsStaticMode)
-            {
-                _data.Add(entity);
-            }
-            else
-            {
-                this.Data.Add(entity);
-            }
+        public ObservableCollection<T> Local
+        {
+            get { return new ObservableCollection<T>(Data); }
+        }
 
-			return entity;
-		}
+        public T Remove(T entity)
+        {
+            Data.Remove(entity);
 
-		public T Attach(T entity)
-		{
-            if (this.IsStaticMode)
-            {
-                _data.Add(entity);
-            }
-            else
-            {
-                this.Data.Add(entity);
-            }
+            return entity;
+        }
 
-			return entity;
-		}
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Data.GetEnumerator();
+        }
 
-		public TDerivedEntity Create<TDerivedEntity>() where TDerivedEntity : class, T
-		{
-			throw new NotImplementedException();
-		}
+        private IEnumerator GetEnumerator1()
+        {
+            return Data.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator1();
+        }
 
-		public T Create()
-		{
-			return Activator.CreateInstance<T>();
-		}
+        public Type ElementType
+        {
+            get { return Data.AsQueryable().ElementType; }
+        }
 
-		public virtual T Find(params object[] keyValues)
-		{
-			throw new NotImplementedException("Derive from InMemoryDbSet and override Find.");
-		}
+        public Expression Expression
+        {
+            get { return Data.AsQueryable().Expression; }
+        }
 
-		public System.Collections.ObjectModel.ObservableCollection<T> Local
-		{
-			get { return new System.Collections.ObjectModel.ObservableCollection<T>(_data); }
-		}
-
-		public T Remove(T entity)
-		{
-            if (this.IsStaticMode)
-            {
-                _data.Remove(entity);
-            }
-            else
-            {
-                this.Data.Remove(entity);
-            }
-
-			return entity;
-		}
-
-		public IEnumerator<T> GetEnumerator()
-		{
-            if (this.IsStaticMode)
-            {
-                return _data.GetEnumerator();
-            }
-            else
-            {
-                return this.Data.GetEnumerator();
-            }
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-            if (this.IsStaticMode)
-            {
-                return _data.GetEnumerator();
-            }
-            else
-            {
-                return this.Data.GetEnumerator();
-            }
-		}
-
-		public Type ElementType
-		{
-			get { return _query.ElementType; }
-		}
-
-		public Expression Expression
-		{
-			get { return _query.Expression; }
-		}
-
-		public IQueryProvider Provider
-		{
-			get { return _query.Provider; }
-		}
-	}
+        public IQueryProvider Provider
+        {
+            get { return Data.AsQueryable().Provider; }
+        }
+    }
 }
