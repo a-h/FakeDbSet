@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FakeDbSet
 {
@@ -17,13 +20,20 @@ namespace FakeDbSet
 	{
         bool IsStaticMode = false;
 
-        /// <summary>
-        /// The non static backing store data for the InMemoryDbSet.
-        /// </summary>
-        HashSet<T> Data { get; set; }
+	    /// <summary>
+	    /// The non static backing store data for the InMemoryDbSet.
+	    /// </summary>
+	    private HashSet<T> Data
+	    {
+	        get
+	        {
+                return IsStaticMode ? _StaticData : _InstanceData;
+	        }
+	    }
 
-		readonly static HashSet<T> _data = new HashSet<T>();
-		readonly IQueryable _query = _data.AsQueryable();
+        readonly HashSet<T> _InstanceData = new HashSet<T>(); 
+        readonly static HashSet<T> _StaticData = new HashSet<T>();
+		readonly IQueryable<T> _query;
 
         /// <summary>
         /// Creates an instance of the InMemoryDbSet using the default static backing store.This means
@@ -42,7 +52,8 @@ namespace FakeDbSet
         public InMemoryDbSet(HashSet<T> data)
         {
             this.IsStaticMode = false;
-            this.Data = data;
+            this._InstanceData = data;
+            _query = Data.AsQueryable();
         }
 
         /// <summary>
@@ -53,48 +64,28 @@ namespace FakeDbSet
         /// <param name="clearDownExistingData"></param>
         public InMemoryDbSet(bool clearDownExistingData)
         {
+			_query = Data.AsQueryable();
             if (clearDownExistingData)
             {
                 Clear();
             }
         }
 
-        public void Clear()
+	    public void Clear()
         {
-            if (this.IsStaticMode)
-            {
-                _data.Clear();
-            }
-            else
-            {
-                this.Data.Clear();
-            }
+            this.Data.Clear();
         }
 
-		public T Add(T entity)
+	    public T Add(T entity)
 		{
-            if (this.IsStaticMode)
-            {
-                _data.Add(entity);
-            }
-            else
-            {
-                this.Data.Add(entity);
-            }
+            this.Data.Add(entity);
 
 			return entity;
 		}
 
 		public T Attach(T entity)
 		{
-            if (this.IsStaticMode)
-            {
-                _data.Add(entity);
-            }
-            else
-            {
-                this.Data.Add(entity);
-            }
+            this.Data.Add(entity);
 
 			return entity;
 		}
@@ -104,7 +95,7 @@ namespace FakeDbSet
 			throw new NotImplementedException();
 		}
 
-		public T Create()
+	    public T Create()
 		{
 			return Activator.CreateInstance<T>();
 		}
@@ -114,50 +105,34 @@ namespace FakeDbSet
 			throw new NotImplementedException("Derive from InMemoryDbSet and override Find.");
 		}
 
-		public System.Collections.ObjectModel.ObservableCollection<T> Local
+        public Task<T> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
+        {
+            throw new NotImplementedException("Derive from InMemoryDbSet and override Find.");
+        }
+
+        public DbLocalView<T> Local
 		{
-			get { return new System.Collections.ObjectModel.ObservableCollection<T>(_data); }
+            get { return new DbLocalView<T>(Data); }
 		}
 
 		public T Remove(T entity)
 		{
-            if (this.IsStaticMode)
-            {
-                _data.Remove(entity);
-            }
-            else
-            {
-                this.Data.Remove(entity);
-            }
+            this.Data.Remove(entity);
 
 			return entity;
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-            if (this.IsStaticMode)
-            {
-                return _data.GetEnumerator();
-            }
-            else
-            {
-                return this.Data.GetEnumerator();
-            }
+            return this.Data.GetEnumerator();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-            if (this.IsStaticMode)
-            {
-                return _data.GetEnumerator();
-            }
-            else
-            {
-                return this.Data.GetEnumerator();
-            }
-		}
+	    IEnumerator IEnumerable.GetEnumerator()
+	    {
+	        return GetEnumerator();
+	    }
 
-		public Type ElementType
+	    public Type ElementType
 		{
 			get { return _query.ElementType; }
 		}
