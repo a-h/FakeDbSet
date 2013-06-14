@@ -37,8 +37,8 @@ namespace Example.BusinessLogic
 		{
 			using (IBookStoreEntities entities = factory.Create())
 			{
-				return entities.Books
-					.Where(b => 
+                return entities.Books
+                    .Where(b => 
 						b.Author.LastName == authorLastName)
 					.ToList();
 			}

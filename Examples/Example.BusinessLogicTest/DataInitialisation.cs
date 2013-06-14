@@ -60,7 +60,7 @@ namespace Example.BusinessLogicTest
 					YearPublished = 2011
 				});
 
-				database.Authors.Add(authorOne);
+				database.Authors.Add(authorTwo);
 
 				database.SaveChanges();
 			}

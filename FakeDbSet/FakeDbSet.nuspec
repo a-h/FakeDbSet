@@ -13,7 +13,7 @@
     <copyright></copyright>
     <tags>EF, InMemoryDbSet, Code First</tags>
     <dependencies>
-      <dependency id="EntityFramework" version="5.0.0" />
+      <dependency id="EntityFramework" version="6.0.0-beta1" />
     </dependencies>
    </metadata>
 </package>
